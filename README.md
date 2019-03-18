@@ -104,7 +104,7 @@ subprojects{
     
 }
 //在这里给具体的子工程添加自定义的task，也可以在子工程的build.gradle里面添加.
-project(':springsecurity-demo') {
+project(':subproject1') {
     dependencies {
         implementation('org.springframework.boot:spring-boot-starter-web')
 //        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
