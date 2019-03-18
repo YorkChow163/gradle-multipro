@@ -19,7 +19,7 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
-//所有的工程配置
+//所有的工程都会执行这个task
 allprojects {
     group 'com.zhouyu'
     version '1.0-SNAPSHOT'
@@ -44,9 +44,17 @@ allprojects {
     }
 
     //在这里定义公用依赖
-    /*dependencies {
-
-    }*/
+    dependencies {
+        /**热部署和lombok*/
+        runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.projectlombok:lombok:1.18.2'
+        compileOnly 'org.projectlombok:lombok:1.18.2'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+        testCompileOnly 'org.projectlombok:lombok:1.18.2'
+        /**通用工具*/
+        implementation('org.apache.commons:commons-lang3:3.8')
+        implementation('com.alibaba:fastjson:1.2.47')
+    }
 
     configurations {
         compileOnly {
@@ -54,16 +62,18 @@ allprojects {
         }
     }
 }
-//在这里也可以定义具体的子工程成需要的依赖
-project(':springsecurity-demo'){
+/**定义只有子工程才会执行的task*/
+subprojects{
+    
+}
+//在这里给具体的子工程添加自定义的task，也可以在子工程的build.gradle里面添加.
+project(':springsecurity-demo') {
     dependencies {
-        implementation('org.springframework.boot:spring-boot-starter')
-        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
-        implementation('mysql:mysql-connector-java')
+        implementation('org.springframework.boot:spring-boot-starter-web')
+//        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
+//        implementation('mysql:mysql-connector-java')
         implementation 'org.springframework.boot:spring-boot-starter-security'
-        compileOnly 'org.projectlombok:lombok'
-        runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-        annotationProcessor 'org.projectlombok:lombok'
+        implementation('com.auth0:java-jwt:3.4.0')
 
         testImplementation('org.springframework.boot:spring-boot-starter-test')
         testImplementation 'org.springframework.security:spring-security-test'

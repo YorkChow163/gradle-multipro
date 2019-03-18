@@ -81,9 +81,17 @@ allprojects {
     }
 
     //在这里定义公用依赖
-    /*dependencies {
-
-    }*/
+    dependencies {
+        /**热部署和lombok*/
+        runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.projectlombok:lombok:1.18.2'
+        compileOnly 'org.projectlombok:lombok:1.18.2'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+        testCompileOnly 'org.projectlombok:lombok:1.18.2'
+        /**通用工具*/
+        implementation('org.apache.commons:commons-lang3:3.8')
+        implementation('com.alibaba:fastjson:1.2.47')
+    }
 
     configurations {
         compileOnly {
@@ -94,16 +102,14 @@ allprojects {
 //在这里也可以定义具体的子工程成需要的依赖
 project(':subproject1'){
     dependencies {
-        implementation('org.springframework.boot:spring-boot-starter')
-        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
-        implementation('mysql:mysql-connector-java')
-        implementation 'org.springframework.boot:spring-boot-starter-security'
-        compileOnly 'org.projectlombok:lombok'
-        runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-        annotationProcessor 'org.projectlombok:lombok'
-
-        testImplementation('org.springframework.boot:spring-boot-starter-test')
-        testImplementation 'org.springframework.security:spring-security-test'
+           implementation('org.springframework.boot:spring-boot-starter-web')
+        // implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
+        // implementation('mysql:mysql-connector-java')
+           implementation 'org.springframework.boot:spring-boot-starter-security'
+           implementation('com.auth0:java-jwt:3.4.0')
+        
+           testImplementation('org.springframework.boot:spring-boot-starter-test')
+           testImplementation 'org.springframework.security:spring-security-test'
     }
 }
 
@@ -116,14 +122,40 @@ project(':subproject1'){
 ## 修改子工程的build.gradle
 子工程的build.gradle文件修改就看你具体的子工程需要哪些了.比如docker插件，打包镜像名称都是子工程各自定义的，所以只要是子工程各自独有的依赖和插件，你都可以在这里配置；与父工程相同的会覆盖父工程的。例如我在这只是定义一下打jar包的实例，如果你在子工程修改了version和baseName那么打包出来的就是子工程修改后的。
 ```
-/*自定义打包配置*/
-//jar {
-//    baseName = 'gradle-demo'
-//    version = '0.0.1'
-//    manifest {
-//        attributes "Manifest-Version": 1.0,
-//                'Main-Class': 'com.zhouyu.SpringSecurityDemoApplication'
-//    }
-//}
+/**自定义打包配置*/
+jar {
+    baseName = 'gradle-demo'
+    version = '0.0.1'
+    manifest {
+        attributes "Manifest-Version": 1.0,
+                'Main-Class': 'com.zhouyu.SpringSecurityDemoApplication'
+    }
+}
+*/
+/**task buildDocker(type: Docker, dependsOn: build) {
 
+    tagVersion = "1.0.0"
+    applicationName = "item"
+    tag = "localhost:5000/${applicationName}"
+    push = true
+    dockerfile = ('../docker/Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            rename { 'app.jar' }
+            into stageDir
+        }
+    }
+}*/
+```
+## 打包运行
+![打包界面](./pasteimg/2019-03-18-17-05-14.png)
+![打包成功](./pasteimg/2019-03-18-17-06-06.png)
+## 采坑记
+* gradle下lombok依赖错误，导致每次打包不了,可以参见票[这里](https://stackoverflow.com/questions/50519138/annotationprocessor-gradle-4-7-configuration-doesnt-run-lombok).大致的意思是说，gradle4.7以后默认引入lombok的方式有问题，需要改成以下
+```groovy
+annotationProcessor('org.projectlombok:lombok')
+compileOnly('org.projectlombok:lombok')
+testAnnotationProcessor('org.projectlombok:lombok')
+testCompileOnly('org.projectlombok:lombok')
 ```
