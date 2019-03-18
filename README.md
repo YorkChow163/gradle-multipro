@@ -56,7 +56,7 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
-//所有的工程配置
+//所有的工程都会执行这个task
 allprojects {
     group 'com.zhouyu'
     version '1.0-SNAPSHOT'
@@ -99,17 +99,21 @@ allprojects {
         }
     }
 }
-//在这里也可以定义具体的子工程成需要的依赖
-project(':subproject1'){
+/**定义只有子工程才会执行的task*/
+subprojects{
+    
+}
+//在这里给具体的子工程添加自定义的task，也可以在子工程的build.gradle里面添加.
+project(':springsecurity-demo') {
     dependencies {
-           implementation('org.springframework.boot:spring-boot-starter-web')
-        // implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
-        // implementation('mysql:mysql-connector-java')
-           implementation 'org.springframework.boot:spring-boot-starter-security'
-           implementation('com.auth0:java-jwt:3.4.0')
-        
-           testImplementation('org.springframework.boot:spring-boot-starter-test')
-           testImplementation 'org.springframework.security:spring-security-test'
+        implementation('org.springframework.boot:spring-boot-starter-web')
+//        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0'
+//        implementation('mysql:mysql-connector-java')
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation('com.auth0:java-jwt:3.4.0')
+
+        testImplementation('org.springframework.boot:spring-boot-starter-test')
+        testImplementation 'org.springframework.security:spring-security-test'
     }
 }
 
