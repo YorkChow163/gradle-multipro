@@ -11,11 +11,21 @@ import java.util.List;
 @Data
 @ToString
 public class MyUser implements UserDetails {
-    private Long id;;
+    private Long id;
     private String mobile;
     private List<Role> roles;
     private String password;
-    private final String username;
+    private String username;
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
 
     //获取权限列表
     @Override
