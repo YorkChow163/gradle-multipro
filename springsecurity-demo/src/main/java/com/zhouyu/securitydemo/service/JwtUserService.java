@@ -15,14 +15,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class JwtUserService implements UserDetailsService {
 
-    private  static  Logger logger = LoggerFactory.getLogger(JwtUserService.class);
+    private  static  Logger LOGGER = LoggerFactory.getLogger(JwtUserService.class);
 
     UserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MyUser user = userDao.findUserByUsername(username);
-        logger.info("查询到用户信息:{}",user.toString());
+        LOGGER.info("查询到用户信息:{}",user.toString());
         return user;
     }
 }
