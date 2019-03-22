@@ -29,7 +29,10 @@ public class MyUser implements UserDetails {
         return this.username;
     }
 
-    //获取权限列表
+    /**
+     * 获取权限列表
+     * @return
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

@@ -41,7 +41,7 @@ public class JwtTokenUtils {
 
 
     /**
-     * tokrn是否已过期
+     * token是否已过期
      * @param token
      * @return
      */
