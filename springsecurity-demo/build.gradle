@@ -1,14 +1,12 @@
-/**自定义打包配置
-jar {
+/*jar {
     baseName = 'gradle-demo'
     version = '0.0.1'
     manifest {
         attributes "Manifest-Version": 1.0,
                 'Main-Class': 'com.zhouyu.SpringSecurityDemoApplication'
     }
-}
-*/
-/**task buildDocker(type: Docker, dependsOn: build) {
+}*/
+/*task buildDocker(type: Docker, dependsOn: build) {
 
     tagVersion = "1.0.0"
     applicationName = "item"

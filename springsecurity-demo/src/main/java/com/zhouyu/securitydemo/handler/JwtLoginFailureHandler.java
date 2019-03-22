@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Description:登录失败回调
+ * @Description:登录失败回调的自定义实现
  * @Author: zhouyu
  * @Date: 2019/3/18 17:45
  */
-public class JsonLoginFailureHandler implements AuthenticationFailureHandler {
+public class JwtLoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 

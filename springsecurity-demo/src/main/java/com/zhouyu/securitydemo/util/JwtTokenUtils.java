@@ -4,8 +4,12 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.zhouyu.securitydemo.entity.MyUser;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * JWT工具类
@@ -18,18 +22,26 @@ public class JwtTokenUtils {
     private static String SECRET="zhouyu";
 
     /**
-     * 创建token
-     * @param username 用户名
+     * 创建jwt
+     * @param user 用户
      * @return token字符串
      */
-    public static String createToken(String username) {
+    public static String createToken(MyUser user) {
+        StringBuffer roles = new StringBuffer();
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        for (GrantedAuthority authority:authorities) {
+            roles.append(authority.getAuthority());
+            roles.append(",");
+        }
+
         //设置JWT过期时间
         Date date = new Date(System.currentTimeMillis()+3600*1000);
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
         return JWT.create()
                 .withIssuer("auth0")
-                .withClaim("username",username)
-                .withSubject(username)
+                .withClaim("username",user.getUsername())
+                .withClaim("roles",roles.toString())
+                .withSubject(user.getUsername())
                 .withExpiresAt(new Date())
                 .withExpiresAt(date)
                 .sign(algorithm);
@@ -41,7 +53,7 @@ public class JwtTokenUtils {
 
 
     /**
-     * token是否已过期
+     * lwt是否已过期
      * @param token
      * @return
      */
@@ -51,7 +63,7 @@ public class JwtTokenUtils {
 
 
     /**
-     * 获取用户名
+     * 根据jwt获取用户名
      * @param token
      * @return
      */

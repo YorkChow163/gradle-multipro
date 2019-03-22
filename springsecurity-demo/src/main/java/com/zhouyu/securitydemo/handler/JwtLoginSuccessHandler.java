@@ -13,19 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Description:登录成功后的回调，这里我们把token加工一下成为JWT，然后随着fileter设置到请求头里面返回给客户端，下次客户端就会持有此JWT来到资源服务器请求资源
+ * @Description:登录成功后的回调自定义实现
  * @Author: zhouyu
  * @Date: 2019/3/18 17:43
  */
-public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
-   private static final Logger logger = LoggerFactory.getLogger(JsonLoginSuccessHandler.class);
+public class JwtLoginSuccessHandler implements AuthenticationSuccessHandler {
+   private static final Logger logger = LoggerFactory.getLogger(JwtLoginSuccessHandler.class);
 
     JwtUserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         MyUser user= (MyUser) authentication.getPrincipal();
-        String token = userService.makeJWT(user);
+        String token = "";
         logger.info("生成JWT:{}",token);
         response.setHeader("Authorization", token);
     }
