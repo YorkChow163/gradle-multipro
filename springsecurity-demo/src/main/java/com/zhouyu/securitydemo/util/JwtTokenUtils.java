@@ -12,12 +12,19 @@ import java.util.Date;
  */
 public class JwtTokenUtils {
 
-    //加密盐值，实际上每个用户都有自己的盐值，生产环境需要放到redis中保存
+    /**
+     * 加密盐值，实际上每个用户都有自己的盐值，生产环境需要放到redis中保存
+     */
     private static String SECRET="zhouyu";
 
-    // 创建token
+    /**
+     * 创建token
+     * @param username 用户名
+     * @return token字符串
+     */
     public static String createToken(String username) {
-        Date date = new Date(System.currentTimeMillis()+3600*1000);  //设置JWT过期时间
+        //设置JWT过期时间
+        Date date = new Date(System.currentTimeMillis()+3600*1000);
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
         return JWT.create()
                 .withIssuer("auth0")
@@ -33,12 +40,21 @@ public class JwtTokenUtils {
     }
 
 
-    // 是否已过期
+    /**
+     * tokrn是否已过期
+     * @param token
+     * @return
+     */
     public static boolean isExpiration(String token){
         return getTokenBody(token).getExpiresAt().before(new Date());
     }
 
-    //获取用户名
+
+    /**
+     * 获取用户名
+     * @param token
+     * @return
+     */
     public static  String getUserNameByToken(String token){
         String username = getTokenBody(token).getClaim("username").asString();
         return username;
