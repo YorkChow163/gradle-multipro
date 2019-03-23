@@ -1,34 +1,64 @@
 package com.zhouyu.securitydemo.filter;
 
+import com.zhouyu.securitydemo.cons.CommonConst;
+import com.zhouyu.securitydemo.service.JwtUserService;
+import com.zhouyu.securitydemo.util.JwtTokenUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * @Description:授权过滤器，验证用户的jwt并设置权限，主要解决"你能干什么"
  * @Author: zhouyu
  * @Date: 2019/3/18 17:21
  */
-public class JwtAuthenrizationFilter extends AbstractAuthenticationProcessingFilter {
-    Logger logger = LoggerFactory.getLogger(getClass());
+public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
+    Logger LOGGER = LoggerFactory.getLogger(JwtAuthenrizationFilter.class);
 
-    public JwtAuthenrizationFilter() {
-        //拦截url为 "/login" 的POST请求
-        super(new AntPathRequestMatcher("/login", "POST"));
+    JwtUserService userService;
+
+    public JwtAuthenrizationFilter(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+    }
+
+    /**
+     * @param tokenHeader
+     * @return
+     */
+    protected UsernamePasswordAuthenticationToken getToken(String tokenHeader) {
+        String token = tokenHeader.replace(CommonConst.TOKEN_PREFIX, "");
+        String name = JwtTokenUtils.getUserNameByToken(token);
+        UserDetails userDetails = userService.loadUserByUsername(name);
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(name, null, userDetails.getAuthorities());
+        return passwordAuthenticationToken;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-
-        return null;
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String tokenHeader = request.getHeader(CommonConst.JWTHEADER);
+        // 如果请求头中没有Authorization信息则直接放行了
+        if (tokenHeader == null || !tokenHeader.startsWith(CommonConst.TOKEN_PREFIX)) {
+            chain.doFilter(request, response);
+            return;
+        }
+        //有jwt则需要验证
+        UsernamePasswordAuthenticationToken authenticationToken = getToken(tokenHeader);
+        //剩下的就交给authenticationManager、provider去做
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        super.doFilterInternal(request, response, chain);
     }
-
 }
