@@ -39,8 +39,10 @@ public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
      * @return
      */
     protected UsernamePasswordAuthenticationToken getToken(String tokenHeader) {
+        LOGGER.info("Authenrization jwt:{}",tokenHeader);
         String token = tokenHeader.replace(CommonConst.TOKEN_PREFIX, "");
         String name = JwtTokenUtils.getUserNameByToken(token);
+        LOGGER.info("Authenrization username:{}",name);
         UserDetails userDetails = userService.loadUserByUsername(name);
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(name, null, userDetails.getAuthorities());
