@@ -25,4 +25,8 @@ public class JwtUserService implements UserDetailsService {
         LOGGER.info("查询到用户信息:{}",user.toString());
         return user;
     }
+
+    public void deleteUserJwt(){
+
+    }
 }
