@@ -1,6 +1,7 @@
 package com.zhouyu.securitydemo.handler;
 
 import com.zhouyu.securitydemo.service.JwtUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
@@ -14,11 +15,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class JwtLogoutHandler implements LogoutHandler {
 
+    @Autowired
     JwtUserService jwtUserService;
 
-    public JwtLogoutHandler(JwtUserService jwtUserService) {
-        this.jwtUserService = jwtUserService;
-    }
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {

@@ -70,7 +70,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             LOGGER.error("get user info from login failed，reason:{}",e.getMessage());
         }
         //封装后的token最终是交给provider来处理
-        return this.authenticationManager.authenticate(token);
+        Authentication authenticate = authenticationManager.authenticate(token);
+        return authenticate;
     }
 
     /**
