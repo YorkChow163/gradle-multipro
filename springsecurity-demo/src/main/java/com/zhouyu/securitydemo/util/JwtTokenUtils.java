@@ -1,5 +1,6 @@
 package com.zhouyu.securitydemo.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -40,7 +41,7 @@ public class JwtTokenUtils {
         return JWT.create()
                 .withIssuer("auth0")
                 .withClaim("username",user.getUsername())
-                .withClaim("roles",roles.toString())
+                .withClaim("roles", JSONObject.toJSONString(user.getAuthorities()))
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date())
                 .withExpiresAt(date)
