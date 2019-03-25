@@ -67,7 +67,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             token = new UsernamePasswordAuthenticationToken(username,password);
             LOGGER.info("get user info from login success,name:{}",token.getName());
         } catch (IOException e) {
-            LOGGER.error("get user info from login failed，reason:{}",e.getCause());
+            LOGGER.error("get user info from login failed，reason:{}",e.getMessage());
         }
         //封装后的token最终是交给provider来处理
         return this.authenticationManager.authenticate(token);

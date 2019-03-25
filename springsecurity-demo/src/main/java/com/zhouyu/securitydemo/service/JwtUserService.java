@@ -34,7 +34,7 @@ public class JwtUserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser user = userDao.findUserByUsername(username);
+        MyUser user = new UserDao().findUserByUsername(username);
         //默认是BCryptPasswordEncoder
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         String paword = passwordEncoder.encode("123456");
