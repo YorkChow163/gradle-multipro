@@ -101,7 +101,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        LOGGER.error("authentication failed, reason:",failed.getMessage());
+        String message = failed.getCause().getMessage();
+        LOGGER.error("authentication failed, reason:{}",message);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
     }
 }

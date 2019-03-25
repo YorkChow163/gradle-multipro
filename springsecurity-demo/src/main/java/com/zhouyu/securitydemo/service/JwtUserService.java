@@ -26,6 +26,10 @@ public class JwtUserService implements UserDetailsService {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     /**
      * 从数据库中查询用户，密码应该是数据库加密的密码，但是这里和登录的时候一致，使用写死的密码
      * @param username
@@ -35,10 +39,8 @@ public class JwtUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MyUser user = new UserDao().findUserByUsername(username);
-        //默认是BCryptPasswordEncoder
-        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        String paword = passwordEncoder.encode("123456");
-        user.setPassword(paword);
+        String password = passwordEncoder.encode("123456");
+        user.setPassword(password);
         LOGGER.info("查询到用户信息:{}",user.toString());
         return user;
     }
