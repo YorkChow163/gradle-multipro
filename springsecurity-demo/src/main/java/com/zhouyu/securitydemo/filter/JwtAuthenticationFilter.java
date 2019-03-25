@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             }
             username = username.trim();
             token = new UsernamePasswordAuthenticationToken(username,password);
-            LOGGER.info("get user info from login success,name{}",token.getName());
+            LOGGER.info("get user info from login success,name:{}",token.getName());
         } catch (IOException e) {
             LOGGER.error("get user info from login failed，reason:{}",e.getCause());
         }
