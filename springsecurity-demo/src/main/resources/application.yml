@@ -14,4 +14,4 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #修改存储引擎
