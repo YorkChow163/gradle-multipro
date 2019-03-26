@@ -57,22 +57,22 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         //auth.authenticationProvider(new CustomAuthenticationProvider(userDetailsService,bCryptPasswordEncoder));
         //在这里指定密码的加密方式，SpringSecutity5.0之后必须指定
         //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        //auth.inMemoryAuthentication().withUser("zhouyu").password("123456").roles("ADMIN");
-        auth.inMemoryAuthentication() //认证信息存储到内存中
+        auth.authenticationProvider(authenticationProvider());
+       /* auth.inMemoryAuthentication() //认证信息存储到内存中
                 .passwordEncoder(passwordEncoder())
-                .withUser("zhouyu").password(passwordEncoder().encode("123456")).roles("ADMIN");
+                .withUser("zhouyu").password(passwordEncoder().encode("123456")).roles("ADMIN");*/
     }
 
 
 
 
-   /* @Bean
+    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
-    }*/
+    }
 
 
     @Override

@@ -6,11 +6,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zhouyu.securitydemo.entity.MyUser;
-import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * JWT工具类
@@ -28,13 +25,6 @@ public class JwtTokenUtils {
      * @return token字符串
      */
     public static String createToken(MyUser user) {
-        StringBuffer roles = new StringBuffer();
-        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-        for (GrantedAuthority authority:authorities) {
-            roles.append(authority.getAuthority());
-            roles.append(",");
-        }
-
         //设置JWT过期时间
         Date date = new Date(System.currentTimeMillis()+3600*1000);
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
