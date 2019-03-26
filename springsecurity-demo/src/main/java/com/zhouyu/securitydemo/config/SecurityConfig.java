@@ -63,9 +63,12 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     }
 
 
-
-
-  /*  @Bean
+    /**
+     * 默认使用的就是DaoAuthenticationProvider,在这里只是显示的写出来参考
+     * @param http
+     * @throws Exception
+     */
+   /* @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
