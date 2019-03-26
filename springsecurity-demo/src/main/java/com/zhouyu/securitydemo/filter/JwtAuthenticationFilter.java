@@ -87,8 +87,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         MyUser user= (MyUser) authResult.getPrincipal();
         String jwt = JwtTokenUtils.createToken(user);
-        LOGGER.info("authentication success,user:【{}】,jwt:【{}】",user.toString(),jwt);
-        response.setHeader(CommonConst.JWTHEADER, jwt);
+        StringBuffer buffer = new StringBuffer(CommonConst.TOKEN_PREFIX);
+        buffer.append(jwt);
+        LOGGER.info("authentication success,user:【{}】,jwt:【{}】",user.toString(),buffer.toString());
+        response.setHeader(CommonConst.JWTHEADER, buffer.toString());
     }
 
     /**
