@@ -1,11 +1,13 @@
 package com.zhouyu.securitydemo.entity;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.List;
 
+@ToString
 @Data
 @Entity
 public class Role extends BaseEntity implements GrantedAuthority{
@@ -19,7 +21,7 @@ public class Role extends BaseEntity implements GrantedAuthority{
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permit_id", referencedColumnName = "id"))
-    private List<Permission> permissions;
+    private List<MyPermission> permissions;
 
     @Column(length = 1024, columnDefinition = "varchar(1024) default '' COMMENT '内容'")
     private String descpt;

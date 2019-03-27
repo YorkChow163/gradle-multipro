@@ -1,0 +1,63 @@
+package com.zhouyu.securitydemo.interceptor;
+
+import com.zhouyu.securitydemo.entity.MyPermission;
+import com.zhouyu.securitydemo.entity.Role;
+import com.zhouyu.securitydemo.service.PermissionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * @Description:获取url,根据url来查询角色，最后返回给MyAccessDecisionManager进行鉴权
+ * @Date:2019/3/27 11:24
+ * @Author:zhouyu
+ */
+@Component
+public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+
+    private static Logger logger = LoggerFactory.getLogger(MyFilterInvocationSecurityMetadataSource.class);
+    private  List<ConfigAttribute> configAttributes = new ArrayList<>();
+
+    @Autowired
+    PermissionService permissionService;
+
+    @Override
+    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
+        try {
+            FilterInvocation fi = (FilterInvocation) object;
+            String url = fi.getRequestUrl();
+            //todo 在这里可以配置不拦截的url
+            logger.info("拦截url:{}",url);
+            MyPermission permission = permissionService.getPermission(url);
+            List<Role> roles = permission.getRoles();
+            if(permission!=null&&roles.size()>0){
+                for (Role role : roles) {
+                    ConfigAttribute conf = new SecurityConfig(role.getCode());
+                    configAttributes.add(conf);
+                }
+            }
+        } catch (Exception e) {
+           logger.error("拦截url获取权限失败,reason:{}",e.getMessage());
+        }
+        return configAttributes;
+    }
+
+    @Override
+    public Collection<ConfigAttribute> getAllConfigAttributes() {
+        return configAttributes;
+    }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return true;
+    }
+}

@@ -1,23 +1,29 @@
 package com.zhouyu.securitydemo.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.List;
 
 /**
  * @Description:权限表
  * @Date:2019/3/26 11:06
  * @Author:zhouyu
  */
+@ToString
 @Data
+@Table(name = "permission")
 @Entity
-public class Permission  extends  BaseEntity{
+public class MyPermission extends  BaseEntity{
     @Column(columnDefinition = "varchar(64) default '' COMMENT '权限名称'")
     private String name;
 
-    /*@ManyToMany(mappedBy = "permissions")
-    private List<Role> roles;*/
+    @ManyToMany(mappedBy = "permissions")
+    private List<Role> roles;
 
     @Column(length = 10, columnDefinition = "int(10) COMMENT '父菜单id'")
     private Integer pid;
