@@ -1,4 +1,4 @@
-package com.zhouyu.securitydemo.interceptor;
+package com.zhouyu.securitydemo.config;
 
 import com.zhouyu.securitydemo.entity.MyPermission;
 import com.zhouyu.securitydemo.entity.Role;

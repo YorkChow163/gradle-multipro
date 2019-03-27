@@ -3,6 +3,7 @@ package com.zhouyu.securitydemo.config;
 import com.zhouyu.securitydemo.filter.JwtAuthenrizationFilter;
 import com.zhouyu.securitydemo.filter.JwtAuthenticationFilter;
 import com.zhouyu.securitydemo.handler.JwtLogoutHandler;
+import com.zhouyu.securitydemo.interceptor.MySecurityInterceptor;
 import com.zhouyu.securitydemo.service.JwtUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -85,6 +87,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/article/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
+                //添加自定义的拦截器
+                .addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
                 .csrf().disable()
                 //.formLogin().disable()
                 //不需要session
@@ -120,4 +124,25 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
+
+    /**
+     *
+     *动态权限配置
+     */
+    @Bean
+    public MySecurityInterceptor getMySecurityInterceptor(){
+        MySecurityInterceptor dynaSecurityInterceptor = new MySecurityInterceptor();
+        dynaSecurityInterceptor.setAccessDecisionManager(decisionManager);
+        dynaSecurityInterceptor.setSecurityMetadataSource(securityMetadataSource);
+        return dynaSecurityInterceptor;
+    }
+
+    @Autowired
+    private MyFilterInvocationSecurityMetadataSource securityMetadataSource;
+
+    @Autowired
+    private  MyAccessDecisionManager decisionManager;
+
+
+
 }
