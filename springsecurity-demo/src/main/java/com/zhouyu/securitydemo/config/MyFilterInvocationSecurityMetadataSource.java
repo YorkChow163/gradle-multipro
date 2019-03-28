@@ -1,5 +1,6 @@
 package com.zhouyu.securitydemo.config;
 
+import com.zhouyu.securitydemo.cons.CommonConst;
 import com.zhouyu.securitydemo.entity.MyPermission;
 import com.zhouyu.securitydemo.entity.Role;
 import com.zhouyu.securitydemo.service.PermissionService;
@@ -51,7 +52,8 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
             List<String> ignoreUrls = getIgnoreUrl();
             for (String ignoreUrl : ignoreUrls) {
                 if(matcher.match(ignoreUrl,requestUrl)){
-
+                    ConfigAttribute attribute = new SecurityConfig(CommonConst.ANONYMOUS);
+                    configAttributes.add(attribute);
                 }
             }
             MyPermission permission = permissionService.getPermission(fi.getRequestUrl());

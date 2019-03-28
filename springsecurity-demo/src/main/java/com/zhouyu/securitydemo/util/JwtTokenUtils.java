@@ -6,8 +6,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zhouyu.securitydemo.entity.MyUser;
+import com.zhouyu.securitydemo.entity.Role;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * JWT工具类
@@ -26,7 +28,7 @@ public class JwtTokenUtils {
      */
     public static String createToken(MyUser user) {
         //设置JWT过期时间
-        Date date = new Date(System.currentTimeMillis()+3600*1000);
+        Date date = new Date(System.currentTimeMillis()+36000*1000);
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
         return JWT.create()
                 .withIssuer("auth0")
@@ -58,9 +60,14 @@ public class JwtTokenUtils {
      * @param token
      * @return
      */
-    public static  String getUserNameByToken(String token){
+    public static  MyUser getUserNameByToken(String token){
         String username = getTokenBody(token).getClaim("username").asString();
-        return username;
+        String roles = getTokenBody(token).getClaim("roles").toString();
+        MyUser user = new MyUser();
+        user.setUsername(username);
+        List<Role> roleList = JSONObject.parseArray(roles, Role.class);
+        user.setRoles(roleList);
+        return user;
     }
 
     public static DecodedJWT getTokenBody(String  token){

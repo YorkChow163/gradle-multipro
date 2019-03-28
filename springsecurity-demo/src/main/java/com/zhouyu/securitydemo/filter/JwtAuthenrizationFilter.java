@@ -1,6 +1,7 @@
 package com.zhouyu.securitydemo.filter;
 
 import com.zhouyu.securitydemo.cons.CommonConst;
+import com.zhouyu.securitydemo.entity.MyUser;
 import com.zhouyu.securitydemo.service.JwtUserService;
 import com.zhouyu.securitydemo.util.JwtTokenUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,11 +28,8 @@ import java.util.Collection;
  * @Date: 2019/3/18 17:21
  */
 public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
+
     Logger LOGGER = LoggerFactory.getLogger(JwtAuthenrizationFilter.class);
-
-    @Autowired
-    JwtUserService userService;
-
     public JwtAuthenrizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
@@ -43,11 +41,11 @@ public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
     protected UsernamePasswordAuthenticationToken getToken(String tokenHeader) {
         LOGGER.info("Authenrization jwt:{}",tokenHeader);
         String token = tokenHeader.replace(CommonConst.TOKEN_PREFIX, "");
-        String name = JwtTokenUtils.getUserNameByToken(token);
-        LOGGER.info("Authenrization username:{}",name);
-        UserDetails userDetails = userService.loadUserByUsername(name);
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(name, null, userDetails.getAuthorities());
+        MyUser user = JwtTokenUtils.getUserNameByToken(token);
+        LOGGER.info("Authenrization username:{}",user.toString());
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        String username = user.getUsername();
+        UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
         return passwordAuthenticationToken;
     }
 

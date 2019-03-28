@@ -1,5 +1,6 @@
 package com.zhouyu.securitydemo.config;
 
+import com.zhouyu.securitydemo.cons.CommonConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDecisionManager;
@@ -34,7 +35,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             String role = configAttribute.getAttribute();
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
             for (GrantedAuthority authority:authorities) {
-                if(authority.getAuthority().equals(role)){
+                if(authority.getAuthority().equals(role)||authentication.equals(CommonConst.ANONYMOUS)){
                     logger.info("匹配到相应的权限,role:{}",role);
                     return;
                 }
