@@ -44,6 +44,12 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     @Qualifier("jwtUserService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private MyFilterInvocationSecurityMetadataSource securityMetadataSource;
+
+    @Autowired
+    private  MyAccessDecisionManager decisionManager;
+
     /**
      * 注入加密
      * @return
@@ -87,7 +93,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/article/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                //添加自定义的拦截器
+                //添加自定义的拦截器,实现动态的权限管理
                 .addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
                 .csrf().disable()
                 //.formLogin().disable()
@@ -128,6 +134,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     /**
      *
      *动态权限配置
+     * securityMetadataSource:负责根据URL查询对应的角色
+     * decisionManager:负责将各个角色和用户的authentication里角色验证，如果用户拥有的角色和访问的url角色匹配说明验证成功
      */
     @Bean
     public MySecurityInterceptor getMySecurityInterceptor(){
@@ -136,13 +144,6 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         dynaSecurityInterceptor.setSecurityMetadataSource(securityMetadataSource);
         return dynaSecurityInterceptor;
     }
-
-    @Autowired
-    private MyFilterInvocationSecurityMetadataSource securityMetadataSource;
-
-    @Autowired
-    private  MyAccessDecisionManager decisionManager;
-
 
 
 }

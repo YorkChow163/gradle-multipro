@@ -2,6 +2,7 @@ package com.zhouyu.securitydemo.interceptor;
 
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
 import javax.servlet.*;
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.util.logging.LogRecord;
 
 /**
- * @Description: 拦截所有的访问路径，获取相应的权限
+ * @Description: 拦截所有的访问路径，进行动态权限校验
  * @Date:2019/3/27 9:51
  * @Author:zhouyu
  */
@@ -34,7 +35,7 @@ public class MySecurityInterceptor extends AbstractSecurityInterceptor implement
 
     @Override
     public Class<?> getSecureObjectClass() {
-        return null;
+        return FilterInvocation.class;
     }
 
     public void setSecurityMetadataSource(FilterInvocationSecurityMetadataSource securityMetadataSource) {
