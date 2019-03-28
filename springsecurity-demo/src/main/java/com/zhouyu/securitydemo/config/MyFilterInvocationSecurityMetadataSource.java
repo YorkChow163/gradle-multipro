@@ -6,13 +6,18 @@ import com.zhouyu.securitydemo.service.PermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.PropertySource;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,14 +35,26 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     @Autowired
     PermissionService permissionService;
 
+    private PathMatcher matcher = new AntPathMatcher();
+
+    @Value("${security.ignoring}")
+    private String ignoreUrl;
+
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         try {
             FilterInvocation fi = (FilterInvocation) object;
-            String url = fi.getRequestUrl();
-            //todo 在这里可以配置不拦截的url
-            logger.info("拦截url:{}",url);
-            MyPermission permission = permissionService.getPermission(url);
+            logger.info("拦截url:{}",fi.getRequestUrl());
+            String requestUrl = fi.getRequestUrl();
+
+            //在这里可以配置不拦截的url
+            List<String> ignoreUrls = getIgnoreUrl();
+            for (String ignoreUrl : ignoreUrls) {
+                if(matcher.match(ignoreUrl,requestUrl)){
+
+                }
+            }
+            MyPermission permission = permissionService.getPermission(fi.getRequestUrl());
             List<Role> roles = permission.getRoles();
             if(permission!=null&&roles.size()>0){
                 for (Role role : roles) {
@@ -49,6 +66,16 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
            logger.error("拦截url获取权限失败,reason:{}",e.getMessage());
         }
         return configAttributes;
+    }
+
+    /**
+     * 获取忽略的url
+     * @return
+     */
+    private List<String> getIgnoreUrl(){
+        String[] split = ignoreUrl.split(",");
+        List<String> ignoreUrls = Arrays.asList(split);
+        return  ignoreUrls;
     }
 
     @Override

@@ -132,8 +132,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     *
-     *动态权限配置
+     * 动态权限配置
      * securityMetadataSource:负责根据URL查询对应的角色
      * decisionManager:负责将各个角色和用户的authentication里角色验证，如果用户拥有的角色和访问的url角色匹配说明验证成功
      */
