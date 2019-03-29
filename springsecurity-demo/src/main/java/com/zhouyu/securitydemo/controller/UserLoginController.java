@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,6 +20,13 @@ public class UserLoginController {
     @RequestMapping("/login")
     public String userLogin(@RequestBody MyUser user){
         logger.info("login,user:{}",user.toString());
+        return "zhouyu";
+    }
+
+    @RequestMapping("/index")
+    @ResponseBody
+    public String gotoIndexPage(){
+        logger.info("去首页");
         return "zhouyu";
     }
 }

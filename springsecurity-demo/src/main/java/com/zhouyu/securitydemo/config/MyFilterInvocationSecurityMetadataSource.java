@@ -59,6 +59,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
                 if(matcher.match(ignoreUrl,requestUrl)){
                     ConfigAttribute attribute = new SecurityConfig(CommonConst.ANONYMOUS);
                     configAttributes.add(attribute);
+                    return configAttributes;
                 }
             }
             //如果没有改资源就保存
@@ -66,7 +67,6 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
             List<BigInteger> roleIds = roleDao.findAllByPermissionId(permission.getId());
             ArrayList<Long> ids = new ArrayList<>();
             for (BigInteger roleId : roleIds) {
-                logger.info("*******:{}",roleId.longValue());
                 ids.add(roleId.longValue());
             }
             Iterable<Role> roles = roleDao.findAllById(ids);
@@ -75,7 +75,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
                 configAttributes.add(conf);
             });
         } catch (Exception e) {
-           logger.error("拦截url获取权限失败,reason:{}",e.getMessage());
+           logger.error("拦截url获取权限失败,reason:{},线程:{}",e.getStackTrace(),Thread.currentThread().getName());
         }
         return configAttributes;
     }
