@@ -12,8 +12,9 @@ spring:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/
   jpa:
     show-sql: true
+    open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #修改存储引擎
 security:
   ignoring: "/static/**/*, /druid/**/**, /login.ftl, /webjars/**/*, /images/**/*" #设置忽略的url

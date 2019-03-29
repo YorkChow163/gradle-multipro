@@ -1,5 +1,7 @@
 package com.zhouyu.securitydemo.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,6 +11,7 @@ import java.util.Date;
  * @Date:2019/3/26 11:15
  * @Author:zhouyu
  */
+@Data
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
     @Id

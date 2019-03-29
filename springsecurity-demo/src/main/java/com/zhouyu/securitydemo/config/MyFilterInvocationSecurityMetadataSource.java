@@ -1,6 +1,7 @@
 package com.zhouyu.securitydemo.config;
 
 import com.zhouyu.securitydemo.cons.CommonConst;
+import com.zhouyu.securitydemo.dao.RoleDao;
 import com.zhouyu.securitydemo.entity.MyPermission;
 import com.zhouyu.securitydemo.entity.Role;
 import com.zhouyu.securitydemo.service.PermissionService;
@@ -8,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.PropertySource;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +37,9 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 
     @Autowired
     PermissionService permissionService;
+
+    @Autowired
+    RoleDao roleDao;
 
     private PathMatcher matcher = new AntPathMatcher();
 
@@ -56,16 +61,19 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
                     configAttributes.add(attribute);
                 }
             }
-
             //如果没有改资源就保存
             MyPermission permission = permissionService.getPermission(fi.getRequestUrl());
-            List<Role> roles = permission.getRoles();
-            if(permission!=null&&roles.size()>0){
-                for (Role role : roles) {
-                    ConfigAttribute conf = new SecurityConfig(role.getCode());
-                    configAttributes.add(conf);
-                }
+            List<BigInteger> roleIds = roleDao.findAllByPermissionId(permission.getId());
+            ArrayList<Long> ids = new ArrayList<>();
+            for (BigInteger roleId : roleIds) {
+                logger.info("*******:{}",roleId.longValue());
+                ids.add(roleId.longValue());
             }
+            Iterable<Role> roles = roleDao.findAllById(ids);
+            roles.forEach(role -> {
+                ConfigAttribute conf = new SecurityConfig(role.getCode());
+                configAttributes.add(conf);
+            });
         } catch (Exception e) {
            logger.error("拦截url获取权限失败,reason:{}",e.getMessage());
         }

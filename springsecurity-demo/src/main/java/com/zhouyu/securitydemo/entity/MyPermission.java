@@ -12,7 +12,6 @@ import java.util.List;
  * @Date:2019/3/26 11:06
  * @Author:zhouyu
  */
-@ToString
 @Data
 @Table(name = "permission")
 @Entity
@@ -20,8 +19,8 @@ public class MyPermission extends  BaseEntity{
     @Column(columnDefinition = "varchar(64) default '' COMMENT '权限名称'")
     private String name;
 
-    @ManyToMany(mappedBy = "permissions",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Role> roles;
+   /* @ManyToMany(mappedBy = "permissions",fetch = FetchType.EAGER)
+    private List<Role> roles;*/
 
     @Column(length = 10, columnDefinition = "int(10) COMMENT '父菜单id'")
     private Integer pid;
