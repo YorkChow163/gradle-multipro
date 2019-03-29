@@ -45,7 +45,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         try {
             FilterInvocation fi = (FilterInvocation) object;
-            logger.info("拦截url:{}",fi.getRequestUrl());
+            logger.info("动态拦截url:{}",fi.getRequestUrl());
             String requestUrl = fi.getRequestUrl();
 
             //在这里可以配置不拦截的url
@@ -56,6 +56,8 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
                     configAttributes.add(attribute);
                 }
             }
+
+            //如果没有改资源就保存
             MyPermission permission = permissionService.getPermission(fi.getRequestUrl());
             List<Role> roles = permission.getRoles();
             if(permission!=null&&roles.size()>0){

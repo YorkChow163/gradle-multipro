@@ -18,9 +18,9 @@ public abstract class BaseEntity implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(columnDefinition = "datetime COMMENT '创建时间'")
-    private Date insertTime;
+    protected Date insertTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(columnDefinition = "datetime COMMENT '修改时间'")
-    private Date updateTime;
+    protected Date updateTime;
 }

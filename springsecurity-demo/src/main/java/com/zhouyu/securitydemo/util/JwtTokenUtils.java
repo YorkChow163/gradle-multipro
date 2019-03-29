@@ -4,17 +4,22 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zhouyu.securitydemo.entity.MyUser;
 import com.zhouyu.securitydemo.entity.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * JWT工具类
  */
 public class JwtTokenUtils {
+    private  static Logger logger = LoggerFactory.getLogger(JwtTokenUtils.class);
 
     /**
      * 加密盐值，实际上每个用户都有自己的盐值，生产环境需要放到redis中保存
@@ -61,12 +66,14 @@ public class JwtTokenUtils {
      * @return
      */
     public static  MyUser getUserNameByToken(String token){
-        String username = getTokenBody(token).getClaim("username").asString();
-        String roles = getTokenBody(token).getClaim("roles").toString();
+        Map<String, Claim> claims = getTokenBody(token).getClaims();
+        String username =claims.get("username").asString();
+        String roleJson = claims.get("roles").asString();
+        List<Role> roles = JSONObject.parseArray(roleJson, Role.class);
         MyUser user = new MyUser();
         user.setUsername(username);
-        List<Role> roleList = JSONObject.parseArray(roles, Role.class);
-        user.setRoles(roleList);
+        user.setRoles(roles);
+        logger.info("decode jwt user:{}",user.toString());
         return user;
     }
 

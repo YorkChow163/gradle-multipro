@@ -2,6 +2,7 @@ package com.zhouyu.securitydemo.service;
 
 import com.zhouyu.securitydemo.dao.UserDao;
 import com.zhouyu.securitydemo.entity.MyUser;
+import com.zhouyu.securitydemo.entity.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 /**
  * @Description:UserDetailsService,实现自UserDetailsService
@@ -29,7 +32,6 @@ public class JwtUserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     /**
      * 从数据库中查询用户，密码应该是数据库加密的密码，但是这里和登录的时候一致，使用写死的密码
      * @param username
@@ -38,7 +40,18 @@ public class JwtUserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser user = new UserDao().findUserByUsername(username);
+        MyUser user = userDao.findUserByUsername(username);
+        if(user==null){
+            user.setUsername("zhouyu");
+            user.setPassword("123456");
+            Role role = new Role();
+            role.setAuthority("ROOT");
+            role.setDescpt("最高指挥官");
+            role.setCode("root");
+            ArrayList<Role> roles = new ArrayList<>();
+            roles.add(role);
+            user.setRoles(roles);
+        }
         String password = passwordEncoder.encode("123456");
         user.setPassword(password);
         LOGGER.info("查询到用户信息:{}",user.toString());

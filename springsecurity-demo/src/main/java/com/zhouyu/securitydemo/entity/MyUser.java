@@ -46,7 +46,7 @@ public class MyUser extends BaseEntity implements UserDetails {
     @Column(length = 5, columnDefinition = "int(32)  COMMENT '版本号'")
     private Integer version;
 
-    @Column(length = 50, columnDefinition = " varchar(50) DEFAULT '' COMMENT '密码'")
+    @Column(columnDefinition = "TEXT COMMENT '密码'")
     private String password;
 
     @Override

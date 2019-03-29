@@ -22,7 +22,7 @@ public class PermissionService {
 
 
     /**
-     * 根据url权限
+     * 根据url查询权限
      * @param url
      * @return
      */

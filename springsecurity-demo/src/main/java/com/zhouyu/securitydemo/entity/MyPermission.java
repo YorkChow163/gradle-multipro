@@ -2,11 +2,9 @@ package com.zhouyu.securitydemo.entity;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -22,7 +20,7 @@ public class MyPermission extends  BaseEntity{
     @Column(columnDefinition = "varchar(64) default '' COMMENT '权限名称'")
     private String name;
 
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Role> roles;
 
     @Column(length = 10, columnDefinition = "int(10) COMMENT '父菜单id'")

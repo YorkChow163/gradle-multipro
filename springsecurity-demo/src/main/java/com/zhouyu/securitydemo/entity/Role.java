@@ -12,11 +12,12 @@ import java.util.List;
 @Entity
 public class Role extends BaseEntity implements GrantedAuthority{
     @Column(length = 64, columnDefinition = "varchar(64) default '' COMMENT '角色名称/菜单名'")
-    private String name;
+    private String authority;
+
 
     @Override
     public String getAuthority() {
-        return name;
+        return authority;
     }
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
