@@ -19,7 +19,7 @@ public class Role extends BaseEntity implements GrantedAuthority{
         return authority;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permit_id", referencedColumnName = "id"))
     private List<MyPermission> permissions;
 

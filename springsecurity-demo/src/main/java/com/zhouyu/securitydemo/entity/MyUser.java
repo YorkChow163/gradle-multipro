@@ -20,7 +20,7 @@ public class MyUser extends BaseEntity implements UserDetails {
      *  JoinColumn:当前表的referencedColumnName的字段（id）在中间表的字段名字（user_id）
      *  inverseJoinColumns: 关联外键表的referencedColumnName的字段（id）在中间表的字段名字（role_id）
      */
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
