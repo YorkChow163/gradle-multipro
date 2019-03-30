@@ -71,7 +71,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
             }
             Iterable<Role> roles = roleDao.findAllById(ids);
             roles.forEach(role -> {
-                ConfigAttribute conf = new SecurityConfig(role.getCode());
+                ConfigAttribute conf = new SecurityConfig(role.getAuthority());
                 configAttributes.add(conf);
             });
         } catch (Exception e) {
