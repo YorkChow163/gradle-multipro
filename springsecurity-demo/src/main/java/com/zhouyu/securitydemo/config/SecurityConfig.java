@@ -4,21 +4,21 @@ import com.zhouyu.securitydemo.filter.JwtAuthenrizationFilter;
 import com.zhouyu.securitydemo.filter.JwtAuthenticationFilter;
 import com.zhouyu.securitydemo.handler.JwtLogoutHandler;
 import com.zhouyu.securitydemo.interceptor.MySecurityInterceptor;
-import com.zhouyu.securitydemo.service.JwtUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.header.Header;
@@ -45,10 +45,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private MyFilterInvocationSecurityMetadataSource securityMetadataSource;
+    private FilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
 
     @Autowired
-    private  MyAccessDecisionManager decisionManager;
+    private AccessDecisionManager myAccessDecisionManager;
 
     /**
      * 注入加密
@@ -93,8 +93,6 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/article/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                //添加自定义的拦截器,实现动态的权限管理
-                .addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
                 .csrf().disable()
                 //.formLogin().disable()
                 //不需要session
@@ -112,7 +110,20 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .addLogoutHandler(new JwtLogoutHandler())
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
                 .and()
-                .sessionManagement().disable();
+                .sessionManagement().disable()
+                //添加自定义的拦截器,实现动态的权限管理,注意addFilterAt()方法会在相同位置添加拦截器，会导致拦截两次
+                //.addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
+                .authorizeRequests()
+                .accessDecisionManager(myAccessDecisionManager)
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(
+                            O fsi) {
+                        fsi.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
+                        return fsi;
+                    }
+                });
+
     }
 
     /**
@@ -131,18 +142,17 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    /**
-     * 动态权限配置
-     * securityMetadataSource:负责根据URL查询对应的角色
-     * decisionManager:负责将各个角色和用户的authentication里角色验证，如果用户拥有的角色和访问的url角色匹配说明验证成功
+
+   /**
+     * 自定义的动态权限配置
+     * securityMetadataSource:负责根据URL查询对应的角色，然后加入ConfigAttribute的集合中
+     * decisionManager:负责将configAttributes集合和登录用户的authentication里面的集合权限信息进行对比,判断是具有权限
      */
-    @Bean
+    /*@Bean
     public MySecurityInterceptor getMySecurityInterceptor(){
         MySecurityInterceptor dynaSecurityInterceptor = new MySecurityInterceptor();
-        dynaSecurityInterceptor.setAccessDecisionManager(decisionManager);
+        dynaSecurityInterceptor.setAccessDecisionManager(myAccessDecisionManager);
         dynaSecurityInterceptor.setSecurityMetadataSource(securityMetadataSource);
         return dynaSecurityInterceptor;
-    }
-
-
+    }*/
 }

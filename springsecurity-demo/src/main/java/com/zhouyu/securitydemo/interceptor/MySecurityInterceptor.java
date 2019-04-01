@@ -1,5 +1,8 @@
 package com.zhouyu.securitydemo.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
@@ -19,6 +22,14 @@ import java.util.logging.LogRecord;
  * 3.ConfigAttributes列表中维护了需要鉴权的请求
  */
 public class MySecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+
+    private static Logger logger = LoggerFactory.getLogger(MySecurityInterceptor.class);
+
+    @Override
+    protected InterceptorStatusToken beforeInvocation(Object object) {
+        logger.info("我的动态拦截器,object:{}", JSONObject.toJSONString(object));
+        return super.beforeInvocation(object);
+    }
 
     private FilterInvocationSecurityMetadataSource securityMetadataSource;
 
