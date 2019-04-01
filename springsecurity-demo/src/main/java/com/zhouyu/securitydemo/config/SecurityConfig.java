@@ -104,7 +104,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 new Header("Access-control-Allow-Origin","*"),
                 new Header("Access-Control-Expose-Headers","Authorization"))))
                 .and()
+                //验证
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                //认证
                 .addFilter(new JwtAuthenrizationFilter(authenticationManager()))
                 .logout()
                 .addLogoutHandler(new JwtLogoutHandler())
