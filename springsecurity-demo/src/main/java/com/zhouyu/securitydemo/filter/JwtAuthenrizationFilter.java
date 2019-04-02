@@ -28,6 +28,7 @@ import java.util.Collection;
 
 /**
  * @Description:授权过滤器，验证用户的jwt并设置权限，主要解决"你能干什么"
+ * 此过滤器负责处理具有Authorization认证方案 Basic和Base64编码username:password标记的HTTP请求标头的任何请求
  * @Author: zhouyu
  * @Date: 2019/3/18 17:21
  */
@@ -70,6 +71,7 @@ public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
             LOGGER.error("认证失败,reason:{}",e.getMessage());
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSONObject.toJSONString(new BodyMsg<>(e.getMessage(),403)));
+            return;
         }
         super.doFilterInternal(request, response, chain);
     }
