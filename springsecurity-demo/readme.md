@@ -12,7 +12,7 @@
 
 * `UserDetailsService` : 这个接口主要定义`loadUserByUsername(String name)`方法,也就是根据用户名从数据库中查询用户,所以需要用户提供自己的实现.`AuthenticationProvider`验证的核心原理就是:从UserDetailsService中查询数据库中用户的密码，再和用户登录的密码比较,如果匹配就说明验证成功，也就是`additionalAuthenticationChecks(UserDetails userDetails,UsernamePasswordAuthenticationToken authentication)`方法(图4).
 ![图4](./pasteimg/2019-03-26-16-34-37.png)
-* `AuthenticationSuccessHandler`和`AuthenticationFailureHandler`:验证/认证成功和失败都是通过Handler来处理(图5、图5-1),这个比较简单.一般我们在验证成功以后生成token,认证成功以后返回成功标识即可.
+* `AuthenticationSuccessHandler`和`AuthenticationFailureHandler`:验证/认证成功和失败都是通过Handler来处理(图5、图5-1),这个比较简单.一般我们在验证成功以后生成token,认证成功以后返回成功标识即可。在`AbstractAuthenticationProcessingFilter`中处理失败和成功。
 
 ![图5](./pasteimg/2019-03-26-17-05-21.png)
 

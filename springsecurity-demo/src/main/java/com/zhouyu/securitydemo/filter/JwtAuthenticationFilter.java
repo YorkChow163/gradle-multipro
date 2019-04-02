@@ -3,6 +3,9 @@ package com.zhouyu.securitydemo.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.zhouyu.securitydemo.cons.CommonConst;
 import com.zhouyu.securitydemo.entity.MyUser;
+import com.zhouyu.securitydemo.globalmsg.BodyMsg;
+import com.zhouyu.securitydemo.globalmsg.Exceptionenum;
+import com.zhouyu.securitydemo.globalmsg.ReturnMsgEnum;
 import com.zhouyu.securitydemo.util.JwtTokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,8 +92,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwt = JwtTokenUtils.createToken(user);
         StringBuffer buffer = new StringBuffer(CommonConst.TOKEN_PREFIX);
         buffer.append(jwt);
+        logger.info(JSONObject.toJSONString(ReturnMsgEnum.AUTHENTICATIONSUCCESS));
         LOGGER.info("authentication success,user:【{}】,jwt:【{}】",user.toString(),buffer.toString());
         response.setHeader(CommonConst.JWTHEADER, buffer.toString());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSONObject.toJSONString(new BodyMsg<>(ReturnMsgEnum.AUTHENTICATIONSUCCESS)));
     }
 
     /**
@@ -103,8 +109,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        String message = failed.getCause().getMessage();
+        String message = failed.getMessage();
         LOGGER.error("authentication failed, reason:{}",message);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write( JSONObject.toJSONString(new BodyMsg<>(message,HttpStatus.FORBIDDEN.value())));
     }
 }
