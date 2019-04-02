@@ -35,7 +35,7 @@ springsecurity主要有两个功能:
 
 * 用户表
 
-```
+```java
 @Data
 @Entity
 @Table(name = "user")
@@ -99,7 +99,7 @@ public class MyUser extends BaseEntity implements UserDetails {
 
 * 角色表
 
-```
+```java
 @Data
 @Entity
 public class Role extends BaseEntity implements GrantedAuthority{
@@ -127,7 +127,7 @@ public class Role extends BaseEntity implements GrantedAuthority{
 
 * 权限表
 
-```
+```java
 @Data
 @Entity
 public class Permission  extends  BaseEntity{
@@ -156,7 +156,7 @@ public class Permission  extends  BaseEntity{
 }
 ```
 ## 实现UserDetailsService
-```
+```java
 @Service
 public class JwtUserService implements UserDetailsService {
     private  static  Logger LOGGER = LoggerFactory.getLogger(JwtUserService.class);
@@ -194,7 +194,7 @@ public class JwtUserService implements UserDetailsService {
 
 ## 验证
 ### 新建JwtAuthenticationFilter类继承`UsernamePasswordAuthenticationFilter`,这个过滤器拦截"/login"路径(其实这个是默认的，写出来方便看而已),拦截后生成`AuthenticationToken`交给`AuthenticationManager`去验证,验证成功就生成jwt返回给发起者.
-```
+```java
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 
@@ -280,7 +280,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 ## 认证
 ### 新建JwtAuthenrizationFilter继承`BasicAuthenticationFilter`,取出用户的jwt,解密jwt
-```
+```java
 public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
     Logger LOGGER = LoggerFactory.getLogger(JwtAuthenrizationFilter.class);
 
@@ -329,7 +329,7 @@ public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
 - 跨域配置
 * 加入验证和认证的filter,也就是`JwtAuthenticationFilter`和`JwtAuthenrizationFilter`
 
-```
+```java
 @Configuration
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)开启方法级别的安全注解
@@ -416,3 +416,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     }
 }
 ```
+## postman模拟测试
+使用postman发出login请求,后台会返回一个jwt,我们在拿着jwt去访问首页index,验证通过会有日志显示
+
+现在已经完成了验证和授权的全部，细心的你可能发现了,现实的权限管理是动态的:用户访问一个url,我们需要根据用户的权限来判断用户是否具有访问的权限.我们将在[下一篇](sd)中介绍动态的权限管理如何实现.

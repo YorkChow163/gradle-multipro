@@ -290,6 +290,40 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 }
 
 ```
+## 测试
+
+### 新建一个controller
+
+```java
+@RestController
+public class UserLoginController {
+   private static Logger logger = LoggerFactory.getLogger(UserLoginController.class);
+
+    @RequestMapping("/login")
+    public String userLogin(@RequestBody MyUser user){
+        logger.info("login,user:{}",user.toString());
+        return "zhouyu";
+    }
+
+    @RequestMapping("/index")
+    @ResponseBody
+    public String gotoIndexPage(){
+        logger.info("去首页");
+        return "zhouyu";
+    }
+}
+```
+
+### postman模拟登录
+发出登录请求后后台返回一个jwt
+![](./pasteimg/2019-04-02-09-55-56.png)
+
+### postman模拟去首页
+得到jwt后拿着它去访问首页,验证通过,后台返回结果.
+![](./pasteimg/2019-04-02-09-59-00.png)
+
+![](./pasteimg/2019-04-02-10-00-24.png)
+
 ## 采坑记
 springsecurity中的filter有严格的过滤顺序,在`FilterComparator`中定义了各个顺序.在配置`WebSecurityConfigurerAdapter`时候加入自定义的filter有三个方法
 - addFilterBefore(Filter filter, Class beforeFilter) 在 beforeFilter 之前添加 filter
@@ -310,3 +344,4 @@ springsecurity中的filter有严格的过滤顺序,在`FilterComparator`中定�
                         }
                     });
     ```
+    
