@@ -11,28 +11,28 @@ import lombok.ToString;
 @Data
 @ToString
 public class BodyMsg<T> {
-    private int code;
-    private String msg;
+    private int status;
+    private String message;
     private T data;
 
     public BodyMsg(ReturnMsgEnum returnMsgEnum) {
-        this.code=returnMsgEnum.getCode();
-        this.msg=returnMsgEnum.getMsg();
+        this.status=returnMsgEnum.getCode();
+        this.message=returnMsgEnum.getMsg();
     }
 
     public BodyMsg(ReturnMsgEnum returnMsgEnum, T data) {
-        this.code=returnMsgEnum.getCode();
-        this.msg=returnMsgEnum.getMsg();
+        this.status=returnMsgEnum.getCode();
+        this.message=returnMsgEnum.getMsg();
         this.data = data;
     }
 
     public BodyMsg(Exceptionenum exceptionenum) {
-        this.code = exceptionenum.getCode();
-        this.msg = exceptionenum.getMsg();
+        this.status = exceptionenum.getCode();
+        this.message = exceptionenum.getMsg();
     }
 
-    public BodyMsg(String msg,int code) {
-        this.msg = msg;
-        this.code=code;
+    public BodyMsg(String message,int status) {
+        this.status = status;
+        this.message=message;
     }
 }

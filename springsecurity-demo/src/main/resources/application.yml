@@ -17,7 +17,7 @@ spring:
       ddl-auto: none
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #修改存储引擎
 security:
-  ignoring: "/static/**/*, /druid/**/**, /login.ftl, /webjars/**/*, /images/**/*" #设置忽略的url
+  ignoring: "/static/**/*, /druid/**/**, /login.ftl, /webjars/**/*, /images/**/*,/error" #设置忽略的url
   intercept: "/**/*.jsp, /**/*.html, /**/*.ftl" #设置拦截的url
   successUrl: "/index.ftl" #登录成功后跳转的url
   logoutSuccessUrl: "/login.ftl" #退出成功后的url

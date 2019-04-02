@@ -1,7 +1,9 @@
 package com.zhouyu.securitydemo.filter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhouyu.securitydemo.cons.CommonConst;
 import com.zhouyu.securitydemo.entity.MyUser;
+import com.zhouyu.securitydemo.globalmsg.BodyMsg;
 import com.zhouyu.securitydemo.service.JwtUserService;
 import com.zhouyu.securitydemo.util.JwtTokenUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -58,9 +62,41 @@ public class JwtAuthenrizationFilter extends BasicAuthenticationFilter {
             return;
         }
         //有jwt则需要验证
-        UsernamePasswordAuthenticationToken authenticationToken = getToken(tokenHeader);
-        //剩下的就交给authenticationManager、provider去做
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = getToken(tokenHeader);
+            //剩下的就交给authenticationManager、provider去做
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        } catch (Exception e) {
+            LOGGER.error("认证失败,reason:{}",e.getMessage());
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSONObject.toJSONString(new BodyMsg<>(e.getMessage(),403)));
+        }
         super.doFilterInternal(request, response, chain);
+    }
+
+    /**
+     * 认证成功
+     * @param request
+     * @param response
+     * @param authResult
+     * @throws IOException
+     */
+    @Override
+    protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) throws IOException {
+        super.onSuccessfulAuthentication(request, response, authResult);
+    }
+
+    /**
+     * 认证失败
+     * @param request
+     * @param response
+     * @param failed
+     * @throws IOException
+     */
+    @Override
+    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+        LOGGER.error("authentication failed, reason:{}",failed.getMessage());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSONObject.toJSONString(new BodyMsg<>(failed.getMessage(),403)));
     }
 }

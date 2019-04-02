@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -39,6 +40,8 @@ import java.util.Arrays;
 //@EnableGlobalMethodSecurity(prePostEnabled = true)开启方法级别的安全注解
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    AccessDeniedHandler jwtAccessDeniedHandler;
 
     @Autowired
     @Qualifier("jwtUserService")
@@ -89,6 +92,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/image/**").permitAll()
+                .antMatchers("/error").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/article/**").hasRole("USER")
                 .anyRequest().authenticated()
@@ -108,6 +112,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 //认证
                 .addFilter(new JwtAuthenrizationFilter(authenticationManager()))
+                //异常处理
+                .exceptionHandling()
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+               // .accessDeniedPage()
+                .and()
                 .logout()
                 .addLogoutHandler(new JwtLogoutHandler())
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
