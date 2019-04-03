@@ -21,7 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -90,11 +92,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/image/**").permitAll()
+       /* http.authorizeRequests()
+                .antMatchers("/statics/**").permitAll()
+                .antMatchers("/login.html").permitAll()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/article/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
@@ -109,22 +111,17 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 new Header("Access-Control-Expose-Headers","Authorization"))))
                 .and()
                 //验证
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilterAt(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 //认证
-                .addFilter(new JwtAuthenrizationFilter(authenticationManager()))
+                .addFilterAt(new JwtAuthenrizationFilter(authenticationManager()), BasicAuthenticationFilter.class)
                 //异常处理
                 .exceptionHandling()
                 .accessDeniedHandler(jwtAccessDeniedHandler)
-               // .accessDeniedPage()
+                //.accessDeniedPage()
                 .and()
-                .logout()
-                .addLogoutHandler(new JwtLogoutHandler())
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-                .and()
-                .sessionManagement().disable()
                 //添加自定义的拦截器,实现动态的权限管理,注意addFilterAt()方法会在相同位置添加拦截器，会导致拦截两次
-                //.addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
-                .authorizeRequests()
+                .addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
+                *//*.authorizeRequests()
                 .accessDecisionManager(myAccessDecisionManager)
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -133,7 +130,39 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         fsi.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
                         return fsi;
                     }
-                });
+                })
+                .and()*//*
+                .formLogin()
+                //登录页面
+                .loginPage("/login.html")
+                .loginProcessingUrl("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .addLogoutHandler(new JwtLogoutHandler())
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                .and()
+                .sessionManagement().disable();*/
+
+        //设置过滤器
+        http.authorizeRequests().antMatchers("/statics/**").permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .addFilterAt(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
+                .csrf().disable()
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/login")
+                .loginPage("/login.html")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .permitAll();
 
     }
 
@@ -159,11 +188,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
      * securityMetadataSource:负责根据URL查询对应的角色，然后加入ConfigAttribute的集合中
      * decisionManager:负责将configAttributes集合和登录用户的authentication里面的集合权限信息进行对比,判断是具有权限
      */
-    /*@Bean
+    @Bean
     public MySecurityInterceptor getMySecurityInterceptor(){
         MySecurityInterceptor dynaSecurityInterceptor = new MySecurityInterceptor();
         dynaSecurityInterceptor.setAccessDecisionManager(myAccessDecisionManager);
-        dynaSecurityInterceptor.setSecurityMetadataSource(securityMetadataSource);
+        dynaSecurityInterceptor.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
         return dynaSecurityInterceptor;
-    }*/
+    }
 }

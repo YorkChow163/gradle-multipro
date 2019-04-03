@@ -325,7 +325,7 @@ public class UserLoginController {
 ![](./pasteimg/2019-04-02-10-00-24.png)
 
 ## 采坑记
-springsecurity中的filter有严格的过滤顺序,在`FilterComparator`中定义了各个顺序.在配置`WebSecurityConfigurerAdapter`时候加入自定义的filter有三个方法
+### springsecurity中的filter有严格的过滤顺序,在`FilterComparator`中定义了各个顺序.在配置`WebSecurityConfigurerAdapter`时候加入自定义的filter有三个方法
 - addFilterBefore(Filter filter, Class beforeFilter) 在 beforeFilter 之前添加 filter
 - addFilterAfter(Filter filter, Class afterFilter) 在 afterFilter 之后添加 filter
 - addFilterAt(Filter filter, Class atFilter) 在 atFilter 相同位置添加 filter， 此 filter 不覆盖 filter
@@ -343,5 +343,13 @@ springsecurity中的filter有严格的过滤顺序,在`FilterComparator`中定�
                             return fsi;
                         }
                     });
-    ```
-    
+```
+   
+### `/login`访问后无法跳转到`login.html`页面
+springsecurity配置的登录页面是 `login.html`,而springboot默认访问的静态页面是在classpath下的四个目录中
+- static 
+- public
+- resources
+- META-INFO/resource
+
+但是,`templates`中的文件是需要通过视图解析器才能访问

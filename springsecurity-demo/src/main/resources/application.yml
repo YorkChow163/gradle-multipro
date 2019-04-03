@@ -7,9 +7,11 @@ spring:
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   mvc:
-    static-path-pattern: /static/**
+    static-path-pattern: /statics/**
+    view:
+      suffix: .html
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/
   jpa:
     show-sql: true
     open-in-view: true
@@ -17,7 +19,7 @@ spring:
       ddl-auto: none
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #修改存储引擎
 security:
-  ignoring: "/static/**/*, /druid/**/**, /login.ftl, /webjars/**/*, /images/**/*,/error" #设置忽略的url
+  ignoring: "/statics/**/*, /druid/**/**, /login.ftl,/login.html,//login, /webjars/**/*, /images/**/*,/error" #设置忽略的url
   intercept: "/**/*.jsp, /**/*.html, /**/*.ftl" #设置拦截的url
   successUrl: "/index.ftl" #登录成功后跳转的url
   logoutSuccessUrl: "/login.ftl" #退出成功后的url
