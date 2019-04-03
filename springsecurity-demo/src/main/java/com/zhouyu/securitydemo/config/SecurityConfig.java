@@ -92,9 +92,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       /* http.authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/statics/**").permitAll()
-                .antMatchers("/login.html").permitAll()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
@@ -121,7 +121,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .and()
                 //添加自定义的拦截器,实现动态的权限管理,注意addFilterAt()方法会在相同位置添加拦截器，会导致拦截两次
                 .addFilterAt(getMySecurityInterceptor(), FilterSecurityInterceptor.class)
-                *//*.authorizeRequests()
+                .authorizeRequests()
                 .accessDecisionManager(myAccessDecisionManager)
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -131,10 +131,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         return fsi;
                     }
                 })
-                .and()*//*
+                .and()
                 .formLogin()
                 //登录页面
-                .loginPage("/login.html")
+                //.loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .permitAll()
                 .and()
@@ -142,10 +142,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .addLogoutHandler(new JwtLogoutHandler())
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
                 .and()
-                .sessionManagement().disable();*/
+                .sessionManagement().disable();
 
-        //设置过滤器
+        /*//设置过滤器
         http.authorizeRequests().antMatchers("/statics/**").permitAll()
+                .antMatchers("/login").permitAll()
                 .and()
                 .httpBasic()
                 .and()
@@ -156,13 +157,14 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/login")
-                .loginPage("/login.html")
+//                .loginProcessingUrl("/login")
+//                .defaultSuccessUrl("/login",false)
+                .loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .permitAll();
+                .permitAll();*/
 
     }
 

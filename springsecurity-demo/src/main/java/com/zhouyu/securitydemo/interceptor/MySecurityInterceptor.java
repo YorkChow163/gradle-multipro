@@ -53,6 +53,9 @@ public class MySecurityInterceptor extends AbstractSecurityInterceptor implement
              */
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
         } catch (ServletException e) {
+            logger.info("我的拦截器出现异常:{}",e.getMessage());
+        }
+        finally {
             super.afterInvocation(token, null);
         }
     }

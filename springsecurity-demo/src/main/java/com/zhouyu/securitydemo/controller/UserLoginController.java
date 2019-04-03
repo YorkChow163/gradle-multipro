@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserLoginController {
    private static Logger logger = LoggerFactory.getLogger(UserLoginController.class);
 
-    /*@RequestMapping("/login")
+    @RequestMapping("/login")
     public String userLogin(@RequestBody MyUser user){
         logger.info("登录啦,user:{}",user.toString());
         return "login";
-    }*/
+    }
 
     @RequestMapping("/index")
     @ResponseBody
