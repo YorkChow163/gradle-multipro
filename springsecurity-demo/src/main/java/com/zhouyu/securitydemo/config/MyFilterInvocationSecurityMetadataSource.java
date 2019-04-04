@@ -57,9 +57,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
             List<String> ignoreUrls = getIgnoreUrl();
             for (String ignoreUrl : ignoreUrls) {
                 if(matcher.match(ignoreUrl,requestUrl)){
-                    ConfigAttribute attribute = new SecurityConfig(CommonConst.ANONYMOUS);
-                    configAttributes.add(attribute);
-                    return configAttributes;
+                    return SecurityConfig.createList(CommonConst.ANONYMOUS);
                 }
             }
             //如果没有改资源就保存

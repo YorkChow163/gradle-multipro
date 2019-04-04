@@ -8,5 +8,5 @@ package com.zhouyu.securitydemo.cons;
 public class CommonConst {
     public static String JWTHEADER="Authorization";
     public static String TOKEN_PREFIX="Bearer ";
-    public static String ANONYMOUS="ANONYMOUS";
+    public static String ANONYMOUS="ROLE_ANONYMOUS";
 }

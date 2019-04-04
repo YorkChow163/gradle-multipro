@@ -1,5 +1,6 @@
 package com.zhouyu.securitydemo.config;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhouyu.securitydemo.cons.CommonConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
                 }
             }
         }
+        logger.error("没有获取到相应的权限，authentication:{}", JSONObject.toJSONString(authentication));
         //登录用户没有匹配到对应权限,则禁止访问
         throw new AccessDeniedException("not allow");
     }

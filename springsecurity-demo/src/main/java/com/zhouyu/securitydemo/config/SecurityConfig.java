@@ -100,7 +100,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
-                //.formLogin().disable()
+                .formLogin().disable()
                 //不需要session
                 .sessionManagement().disable()
                 //跨域允许
@@ -132,12 +132,12 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .and()
-                .formLogin()
+//                .formLogin()
                 //登录页面
                 //.loginPage("/login.html")
-                .loginProcessingUrl("/login")
-                .permitAll()
-                .and()
+//                .loginProcessingUrl("/login")
+//                .permitAll()
+//                .and()
                 .logout()
                 .addLogoutHandler(new JwtLogoutHandler())
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
