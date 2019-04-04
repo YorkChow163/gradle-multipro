@@ -2,7 +2,7 @@
  * 时间工具类
  * @type {{formatDate: (function(*, *=): *)}}
  */
-let TimeUtils={
+var TimeUtils={
     formatDateToStr:formatDateToStr
 }
 

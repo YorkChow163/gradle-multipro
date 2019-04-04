@@ -28,8 +28,9 @@ public class UserLoginController {
      * @return
      */
     @RequestMapping(name = "/captcha",method = RequestMethod.GET)
+    @ResponseBody
     public String getCaptcha(@RequestParam(value = "ID",required = false) String ID){
-        return "";
+        return "zjpdghg";
     }
 
     @RequestMapping("/index")
