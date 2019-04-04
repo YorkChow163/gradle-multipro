@@ -63,6 +63,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 <script src="../statics/libs/bootstrap.min.js"></script>
 <script src="../statics/libs/axios.min.js"></script>
+<script src="../statics/myjs/TimeUtil.js"></script>
 <script type="text/javascript">
     let vm=new Vue({
         el:`#rrapp`,
@@ -90,16 +91,17 @@
             console.log(this.$data);
         },
         mounted(){
-            console.log("挂载完成：");
             console.log(this.$el);
             console.log(this.$data);
-            /*向后台请求数据*/
-            axios.get('/user?ID=12345')
-                .then(function (response) {
+            /*向后台请求数据,请求验证码*/
+            let formatDate1 =formatDateToStr(new Date(),'yyyy-MM-dd hh:mm:ss');
+            console.log("挂载完成,时间:",formatDate1);
+            axios.get(`/captcha?ID=123456`)
+                .then((response) =>{
                     console.log('成功啦');
                     console.log(response);
                 })
-                .catch(function (error) {
+                .catch((error)=> {
                     console.log('失败啦');
                     console.log(error);
                 })
