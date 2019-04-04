@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
     <link rel="stylesheet" href="../statics/css/font-awesome.min.css">
     <link rel="stylesheet" href="../statics/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../statics/css/all-skins.min.css">
 </head>
 <body>
