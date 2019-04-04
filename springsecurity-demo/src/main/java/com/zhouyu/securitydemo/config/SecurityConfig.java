@@ -132,12 +132,6 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .and()
-//                .formLogin()
-                //登录页面
-                //.loginPage("/login.html")
-//                .loginProcessingUrl("/login")
-//                .permitAll()
-//                .and()
                 .logout()
                 .addLogoutHandler(new JwtLogoutHandler())
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
