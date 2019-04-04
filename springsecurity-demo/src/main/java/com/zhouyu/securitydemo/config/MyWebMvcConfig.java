@@ -15,6 +15,6 @@ public class MyWebMvcConfig implements WebMvcConfigurer{
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
         System.out.println("登录试图设置");
-        registry.addViewController("/login").setViewName("login");
+//        registry.addViewController("/login").setViewName("login");
     }
 }
