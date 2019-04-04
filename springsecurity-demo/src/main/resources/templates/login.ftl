@@ -57,8 +57,8 @@
     <!-- /.login-box-body -->
 </div>
 <script src="../statics/libs/jquery.min.js"></script>
-<!--<script src="../statics/libs/vue.min.js"></script>-->
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script src="../statics/libs/vue.js"></script>
+<#--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>-->
 <script src="../statics/libs/bootstrap.min.js"></script>
 <script src="../statics/libs/axios.min.js"></script>
 <script src="../statics/myjs/TimeUtil.js"></script>
