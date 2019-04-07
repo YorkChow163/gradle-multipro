@@ -92,7 +92,7 @@
             console.log(this.$el);
             console.log(this.$data);
             /*向后台请求数据,请求验证码*/
-            let formatDate1 =TimeUtil.formatDateToStr(new Date(),'yyyy-MM-dd hh:mm:ss');
+          /*  let formatDate1 =formatDateToStr(new Date(),'yyyy-MM-dd hh:mm:ss');
             console.log("挂载完成,时间:",formatDate1);
             axios.get(`/captcha?ID=123456`)
                 .then((response) =>{
@@ -102,13 +102,13 @@
                 .catch((error)=> {
                     console.log('失败啦');
                     console.log(error);
-                })
+                })*/
         },
         methods:{
             refreshCode:function (){
                 //获取验证码
-                this.src = "captcha.jpg?t=" + $.now();
-                console.log("caonima:",this.src)
+                this.src = "kaptcha?uuid=" + $.now();
+                console.log("刷新验证码:",this.src)
             },
             login:function (){
                 axios.get('/user?ID=12345')
