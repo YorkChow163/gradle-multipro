@@ -16,7 +16,7 @@ import java.util.Properties;
 public class KaptchaConfig {
     @Bean
     public DefaultKaptcha getDefaultKaptcha() {
-        DefaultKaptcha defaultKaptcha = new com.google.code.kaptcha.impl.DefaultKaptcha();
+        DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
         // 图片边框
         properties.setProperty("kaptcha.border", "yes");

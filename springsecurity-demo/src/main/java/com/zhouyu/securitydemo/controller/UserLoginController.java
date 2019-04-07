@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Description:用户登录退出业务
  * @Date:2019/3/25 15:30
@@ -19,6 +21,11 @@ public class UserLoginController {
     public String userLogin(){
         logger.info("登录啦");
         return "login";
+    }
+
+    @RequestMapping("/kaptcha")
+    public void createKaptcha(HttpServletResponse response){
+        logger.info("获取验证码");
     }
 
     @RequestMapping("/index")

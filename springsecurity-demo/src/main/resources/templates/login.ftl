@@ -69,7 +69,7 @@
             username:'',
             password:'',
             captcha:'',
-            src:'',
+            src:'/kaptcha',
             error:false,
             errorMsg:''
         },
