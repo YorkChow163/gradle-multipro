@@ -4,4 +4,10 @@ spring:
       rocketmq:
         binder:
           namesrv-addr: 127.0.0.1:9876 #rocketmq地址
-        bindings: 
+        bindings:
+          output1: {destination: test-topic1, content-type: application/json}
+          output2: {destination: test-topic2, content-type: application/json}
+          input1: {destination: test-topic1, content-type: text/plain, group: test-group, consumer.maxAttempts: 1}
+          input2: {destination: test-topic1, content-type: text/plain, group: test-group, consumer.maxAttempts: 1}
+          input3: {destination: test-topic2, content-type: text/plain, group: test-group, consumer.maxAttempts: 1}
+          input4: {destination: test-topic2, content-type: text/plain, group: test-group, consumer.maxAttempts: 1}
