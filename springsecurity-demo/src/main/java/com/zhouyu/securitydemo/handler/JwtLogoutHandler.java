@@ -5,6 +5,7 @@ import com.zhouyu.securitydemo.service.JwtUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date: 2019/3/18 17:45
  */
 @Component
+@Qualifier("jwtLogoutHandler")
 public class JwtLogoutHandler implements LogoutHandler {
   private static Logger logger = LoggerFactory.getLogger(JwtLogoutHandler.class);
 

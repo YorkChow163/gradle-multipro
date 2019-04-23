@@ -23,6 +23,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -41,6 +42,8 @@ import java.util.Arrays;
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)开启方法级别的安全注解
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
+    @Autowired
+    LogoutHandler jwtLogoutHandler;
 
     @Autowired
     AccessDeniedHandler jwtAccessDeniedHandler;
@@ -133,7 +136,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 })
                 .and()
                 .logout()
-                .addLogoutHandler(new JwtLogoutHandler())
+                .addLogoutHandler(jwtLogoutHandler)
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
                 .and()
                 .sessionManagement().disable();
