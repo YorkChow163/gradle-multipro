@@ -1,16 +1,14 @@
 package com.zhouyu.securitydemo.service;
 
 import com.zhouyu.securitydemo.dao.UserDao;
-import com.zhouyu.securitydemo.entity.MyUser;
-import com.zhouyu.securitydemo.entity.Role;
+import com.zhouyu.securitydemo.entity.sys.MyUser;
+import com.zhouyu.securitydemo.entity.sys.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

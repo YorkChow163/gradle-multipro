@@ -1,10 +1,8 @@
 package com.zhouyu.securitydemo.dao;
 
-import com.zhouyu.securitydemo.entity.Role;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zhouyu.securitydemo.entity.sys.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import java.math.BigInteger;
 import java.util.List;

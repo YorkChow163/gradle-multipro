@@ -1,11 +1,9 @@
-package com.zhouyu.securitydemo.entity;
+package com.zhouyu.securitydemo.entity.sys;
 
+import com.zhouyu.securitydemo.entity.BaseEntity;
 import lombok.Data;
-import lombok.ToString;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * @Description:权限表
@@ -15,7 +13,7 @@ import java.util.List;
 @Data
 @Table(name = "permission")
 @Entity
-public class MyPermission extends  BaseEntity{
+public class MyPermission extends BaseEntity {
     @Column(columnDefinition = "varchar(64) default '' COMMENT '权限名称'")
     private String name;
 

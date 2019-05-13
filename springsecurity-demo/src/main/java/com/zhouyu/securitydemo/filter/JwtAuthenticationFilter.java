@@ -2,9 +2,8 @@ package com.zhouyu.securitydemo.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhouyu.securitydemo.cons.CommonConst;
-import com.zhouyu.securitydemo.entity.MyUser;
+import com.zhouyu.securitydemo.entity.sys.MyUser;
 import com.zhouyu.securitydemo.globalmsg.BodyMsg;
-import com.zhouyu.securitydemo.globalmsg.Exceptionenum;
 import com.zhouyu.securitydemo.globalmsg.ReturnMsgEnum;
 import com.zhouyu.securitydemo.util.JwtTokenUtils;
 import org.slf4j.Logger;

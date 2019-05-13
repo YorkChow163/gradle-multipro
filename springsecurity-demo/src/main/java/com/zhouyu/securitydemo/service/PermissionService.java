@@ -1,7 +1,7 @@
 package com.zhouyu.securitydemo.service;
 
 import com.zhouyu.securitydemo.dao.PermissionDao;
-import com.zhouyu.securitydemo.entity.MyPermission;
+import com.zhouyu.securitydemo.entity.sys.MyPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

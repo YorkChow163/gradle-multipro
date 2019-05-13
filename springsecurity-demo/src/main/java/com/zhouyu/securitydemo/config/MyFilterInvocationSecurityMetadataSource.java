@@ -2,8 +2,8 @@ package com.zhouyu.securitydemo.config;
 
 import com.zhouyu.securitydemo.cons.CommonConst;
 import com.zhouyu.securitydemo.dao.RoleDao;
-import com.zhouyu.securitydemo.entity.MyPermission;
-import com.zhouyu.securitydemo.entity.Role;
+import com.zhouyu.securitydemo.entity.sys.MyPermission;
+import com.zhouyu.securitydemo.entity.sys.Role;
 import com.zhouyu.securitydemo.service.PermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;

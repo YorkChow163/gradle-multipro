@@ -1,7 +1,7 @@
-package com.zhouyu.securitydemo.entity;
+package com.zhouyu.securitydemo.entity.sys;
 
+import com.zhouyu.securitydemo.entity.BaseEntity;
 import lombok.Data;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;

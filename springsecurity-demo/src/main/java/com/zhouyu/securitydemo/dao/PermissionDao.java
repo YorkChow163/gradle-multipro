@@ -1,6 +1,6 @@
 package com.zhouyu.securitydemo.dao;
 
-import com.zhouyu.securitydemo.entity.MyPermission;
+import com.zhouyu.securitydemo.entity.sys.MyPermission;
 import org.springframework.data.repository.CrudRepository;
 
 /**

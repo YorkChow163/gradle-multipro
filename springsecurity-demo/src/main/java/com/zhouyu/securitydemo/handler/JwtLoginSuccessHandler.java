@@ -1,6 +1,6 @@
 package com.zhouyu.securitydemo.handler;
 
-import com.zhouyu.securitydemo.entity.MyUser;
+import com.zhouyu.securitydemo.entity.sys.MyUser;
 import com.zhouyu.securitydemo.service.JwtUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

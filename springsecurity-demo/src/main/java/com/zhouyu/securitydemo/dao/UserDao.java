@@ -1,11 +1,7 @@
 package com.zhouyu.securitydemo.dao;
 
-import com.zhouyu.securitydemo.entity.MyUser;
-import com.zhouyu.securitydemo.entity.Role;
+import com.zhouyu.securitydemo.entity.sys.MyUser;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 
 /**
  * @Description:

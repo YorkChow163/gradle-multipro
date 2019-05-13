@@ -2,21 +2,17 @@ package com.zhouyu.securitydemo.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhouyu.securitydemo.cons.CommonConst;
-import com.zhouyu.securitydemo.entity.MyUser;
+import com.zhouyu.securitydemo.entity.sys.MyUser;
 import com.zhouyu.securitydemo.globalmsg.BodyMsg;
-import com.zhouyu.securitydemo.service.JwtUserService;
 import com.zhouyu.securitydemo.util.JwtTokenUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
