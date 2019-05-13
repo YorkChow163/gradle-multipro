@@ -66,6 +66,7 @@ public class JwtUserService implements UserDetailsService {
     }
 
     public void deleteUserJwt(){
+        //TODO从Redis中删除jwt
 
     }
 }

@@ -163,3 +163,4 @@ compileOnly('org.projectlombok:lombok')
 testAnnotationProcessor('org.projectlombok:lombok')
 testCompileOnly('org.projectlombok:lombok')
 ```
+[Spring Boot、Spring Cloud版本](http://blog.didispace.com/spring-cloud-alibaba-version/)
