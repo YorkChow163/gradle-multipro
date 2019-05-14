@@ -61,7 +61,7 @@
                 <li class="header">导航菜单</li>
 
                 <!-- vue生成的菜单 -->
-                <menu-item :item="item" v-for="item in menuList"></menu-item>
+                <nav-item :item="item" v-for="item in navMenuList"></nav-item>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -122,7 +122,16 @@
 
 </div>
 <!-- ./wrapper -->
-
+<li>
+    <a href="javascript:;">
+        <i class="glyphicon glyphicon-cog" </i>
+        <span>菜单设置</span>
+        <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul>
+        <i class=""></i>
+    </ul>
+</li>
 
 <script src="../statics/libs/axios.min.js"></script>
 <script src="../statics/libs/jquery.min.js"></script>
@@ -131,6 +140,6 @@
 <script src="../statics/libs/bootstrap.min.js"></script>
 <script src="../statics/libs/app.js"></script>
 <script src="../statics/plugins/layer/layer.js"></script>
-<script src="../statics/myjs/index.js"></script>
+<script src="../statics/myjs/Index.js"></script>
 </body>
 </html>
