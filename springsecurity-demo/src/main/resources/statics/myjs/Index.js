@@ -4,7 +4,26 @@ let navMenuItem = Vue.extend({
     // props: ['item'],
     props: {item:{}},
     template: [
-
+        '<li>',
+        '    <a v-if="item.type === 0"  href="javascript:;">',
+        '        <i v-if="item.icon!=null" :class="item.icon"</i>',
+        '        <i v-else class="glyphicon glyphicon-cog"</i>',
+        '        <span>{{item.name}}</span>',
+        '        <i class="fa fa-angle-left pull-right"></i>',
+        '    </a>',
+        '    <ul v-if="item.type === 0" class="treeview-menu">',
+        '     <nav-item :item="item" v-for="item in item.list"> <nav-item/>',
+        '    </ul>',
+        '    <a v-if="item.type === 1 && item.parentId === 0" :href="\'#\'+item.url">',
+        '        <i v-if="item.icon!=null" :class="item.icon"</i>',
+        '        <span>{{item.name}}</span>',
+        '    </a>',
+        '    <a v-if="item.type === 1 && item.parentId != 0" :href="\'#\'+item.url">',
+        '        <i v-if="item.icon!=null" :class="item.icon"</i>',
+        '        <i v-else class="fa fa-circle-o">',
+        '        <span>{{item.name}}</span>',
+        '    </a>',
+        '</li>'
     ]
 });
 //初始化组件
