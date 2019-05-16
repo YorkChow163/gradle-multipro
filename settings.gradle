@@ -10,6 +10,4 @@
 rootProject.name = 'gradle-multipro'
 //子工程在这里包含进来
 include 'springsecurity-demo'
-include 'springstream-demo'
-include 'scloud-mingle-demo'
 

@@ -93,15 +93,3 @@ project(':springsecurity-demo') {
         testImplementation 'org.springframework.security:spring-security-test'
     }
 }
-
-project(':springstream-demo'){
-    dependencies{
-        implementation('org.springframework.boot:spring-boot-starter-web')
-    }
-}
-
-project(':scloud-mingle-demo'){
-    dependencies{
-        implementation('org.springframework.boot:spring-boot-starter-web')
-    }
-}

@@ -61,7 +61,7 @@
 <#--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>-->
 <script src="../statics/libs/bootstrap.min.js"></script>
 <script src="../statics/libs/axios.min.js"></script>
-<script src="../statics/myjs/TimeUtil.js"></script>
+<script src="../statics/myjs/timeutil.js"></script>
 <script type="text/javascript">
     let vm=new Vue({
         el:`#rrapp`,

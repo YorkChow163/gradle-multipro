@@ -129,6 +129,6 @@
 <script src="../statics/libs/bootstrap.min.js"></script>
 <script src="../statics/libs/app.js"></script>
 <script src="../statics/plugins/layer/layer.js"></script>
-<script src="../statics/myjs/Index.js"></script>
+<script src="../statics/myjs/index.js"></script>
 </body>
 </html>
