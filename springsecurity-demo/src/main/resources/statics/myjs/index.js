@@ -75,8 +75,8 @@ let vm = new Vue({
 });
 
 function routerList(router,navMenuList) {
-    for (let index in navMenuList) {
-        let menu = navMenuList[index];
+    let mulist = Array.prototype.slice.call(navMenuList);
+    for (let menu of mulist) {
         if(menu.type==0){
             //一级菜单不需要路由
             routerList(router,menu.list);
