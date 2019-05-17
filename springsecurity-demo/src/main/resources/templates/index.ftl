@@ -125,10 +125,11 @@
 <script src="../statics/libs/axios.min.js"></script>
 <script src="../statics/libs/jquery.min.js"></script>
 <script src="../statics/libs/vue.js"></script>
-<script src="../statics/libs/router.js"></script>
+<#--<script src="../statics/libs/router.js"></script>-->
 <script src="../statics/libs/bootstrap.min.js"></script>
 <script src="../statics/libs/app.js"></script>
 <script src="../statics/plugins/layer/layer.js"></script>
 <script src="../statics/myjs/index.js"></script>
+<script src="../statics/myjs/myrouter.js"></script>
 </body>
 </html>

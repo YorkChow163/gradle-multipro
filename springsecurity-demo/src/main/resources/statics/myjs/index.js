@@ -33,7 +33,8 @@ let vm = new Vue({
     data: {
         user: '',
         navTitle: '菜单',
-        navMenuList: ''
+        navMenuList: '',
+        main:'main.html'
     },
     methods: {
         //获取导航菜单
@@ -65,6 +66,28 @@ let vm = new Vue({
     },
     //vue数据驱动更新钩子函数
     update: function () {
-
+          let router = new MyRouter();
+          routerList(router,vm.navMenuList);
+          window.onhashchange=function () {
+              router.changeLoad()
+          }
     }
 });
+
+function routerList(router,navMenuList) {
+    for (let index in navMenuList) {
+        let menu = navMenuList[index];
+        if(menu.type==0){
+            //一级菜单不需要路由
+            routerList(router,menu.list);
+        }else if(menu.type==1){
+            router.addHashList(addr,function () {
+                //添加路由列表
+                var addr = window.location.hash;
+                //替换iframe的url
+                vm.main = addr.replace('#', '');
+                //导航菜单展开(vue动态修改class)
+            })
+        }
+    }
+}
