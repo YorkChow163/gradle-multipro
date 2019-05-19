@@ -1,1 +1,1 @@
-# vue props[](https://www.cnblogs.com/xiaohuochai/p/7388866.html)
+# [vue组件之props](https://www.cnblogs.com/xiaohuochai/p/7388866.html)
