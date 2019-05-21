@@ -1,10 +1,15 @@
 //在这里定义组件
 let navMenuItem = Vue.extend({
     name: 'nav-item',
-    // props: ['item'],
-    props: {item:{}},
+    props: {
+        item:{},
+        active:{},
+        changeActive:{
+            type:Function
+        }
+    },
     template: [
-        '<li>',
+        '<li :class="active" @click="changeActive">',
         '    <a v-if="item.type === 0"  href="javascript:;">',
         '        <i v-if="item.icon!=null" :class="item.icon"</i>',
         '        <i v-else class="glyphicon glyphicon-cog"</i>',
@@ -12,7 +17,7 @@ let navMenuItem = Vue.extend({
         '        <i class="fa fa-angle-left pull-right"></i>',
         '    </a>',
         '    <ul v-if="item.type === 0" class="treeview-menu">',
-        '     <nav-item :item="item" v-for="item in item.list"> <nav-item/>',
+        '       <nav-item :item="item" v-for="item in item.list"> <nav-item/>',
         '    </ul>',
         '    <a v-if="item.type === 1 && item.parentId === 0" :href="\'#\'+item.url">',
         '        <i v-if="item.icon!=null" :class="item.icon"</i>',
@@ -32,6 +37,7 @@ let vm = new Vue({
     el: '#sideBar',
     data: {
         user: '',
+        active:"active",
         navTitle: '菜单',
         navMenuList: '',
         main:'main.html'
@@ -54,6 +60,17 @@ let vm = new Vue({
             }).catch(error => {
                 console.log("获取用户失败：", error);
             })
+        },
+        //点击展开收缩导航栏
+        changeActive:function(){
+            //动态修改class值
+            let active = vm.active;
+            if(active==''){
+                vm.active='active';
+            }else {
+                vm.active='';
+            }
+
         },
         //更新密码
         updatePassword: function () {
@@ -86,7 +103,6 @@ function routerList(router,navMenuList) {
                 var addr = window.location.hash;
                 //替换iframe的url
                 vm.main = addr.replace('#', '');
-                //导航菜单展开(vue动态修改class)
             })
         }
     }

@@ -61,7 +61,7 @@
                 <li class="header">导航菜单</li>
 
                 <!-- vue生成的菜单 :item就是子组件props指出的占位符 -->
-                <nav-item :item="item" v-for="item in navMenuList"></nav-item>
+                <nav-item :item="item" :active="active" :change-active="changeActive" v-for="item in navMenuList"></nav-item>
             </ul>
         </section>
         <!-- /.sidebar -->
