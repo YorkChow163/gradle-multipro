@@ -47,7 +47,7 @@ let vm = new Vue({
         getNavMenuList: function () {
             axios.get("/menu/nav").then(response => {
                 console.log("获取导航菜单成功：", response);
-                vm.navMenuList = response.navMenuList;
+                this.navMenuList = response.data.navMenuList;
             }).catch(error => {
                 console.log("获取导航菜单失败：", error);
             })
@@ -56,7 +56,7 @@ let vm = new Vue({
         getUser: function () {
             axios.get("/user/list").then(response => {
                 console.log("获取用户成功：", response);
-                vm.user = response.user;
+                this.user = response.data.user;
             }).catch(error => {
                 console.log("获取用户失败：", error);
             })
