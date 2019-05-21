@@ -86,6 +86,7 @@ let vm = new Vue({
           let router = new MyRouter();
           routerList(router,vm.navMenuList);
           window.onhashchange=function () {
+              //hash改变事件监听
               router.changeLoad()
           }
     }
@@ -98,8 +99,9 @@ function routerList(router,navMenuList) {
             //一级菜单不需要路由
             routerList(router,menu.list);
         }else if(menu.type==1){
+            //添加路由列表
             router.addHashList(addr,function () {
-                //添加路由列表
+                //hash监听的回调的回调
                 var addr = window.location.hash;
                 //替换iframe的url
                 vm.main = addr.replace('#', '');
