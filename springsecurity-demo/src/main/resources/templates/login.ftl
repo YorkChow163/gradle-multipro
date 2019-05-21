@@ -12,7 +12,7 @@
 <body>
 <div class="login-box" id="rrapp" v-cloak>
     <div class="login-logo">
-        <b>周宇搞事系统</b>
+        <b>深度学习前端系统</b>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
