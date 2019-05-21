@@ -40,7 +40,7 @@ let vm = new Vue({
         active:"active",
         navTitle: '菜单',
         navMenuList: '',
-        main:'main.html'
+        main:'main.ftl'
     },
     methods: {
         //获取导航菜单
