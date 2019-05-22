@@ -1,4 +1,4 @@
-INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES
+INSERT INTO `sys_menu` (`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES
  ('1', '0', '系统管理', NULL, NULL, '0', 'fa fa-cog', '0'),
  ('2', '1', '管理员管理', 'modules/sys/user.html', NULL, '1', 'fa fa-user', '1'),
  ('3', '1', '角色管理', 'modules/sys/role.html', NULL, '1', 'fa fa-user-secret', '2'),
