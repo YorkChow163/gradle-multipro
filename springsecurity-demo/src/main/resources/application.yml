@@ -16,7 +16,7 @@ spring:
     show-sql: true
     open-in-view: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #修改存储引擎
 security:
   ignoring: "/statics/**/*,/druid/**/**,/kaptcha,/login,/webjars/**/*,/images/**/*,/error" #设置忽略的url
